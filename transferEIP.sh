@@ -29,7 +29,7 @@ NTW_INTF_ID=`aws ec2 describe-network-interfaces --region ${REGION_ID} --filter 
 echo "Taking over the EIP(${EIP}) onto instance(${INSTANCE_ID})"
 echo "Applying EIP to Private IP Address: $NTW_INTF_ETH1"
 echo "Network Interface ID is: $NTW_INTF_ID"
-aws ec2 associate-address --region ${REGION_ID} --dry-run --allocation-id ${ALLOCATION_ID} --network-interface-id ${NTW_INTF_ID} --allow-reassociation
+aws ec2 associate-address --region ${REGION_ID} --allocation-id ${ALLOCATION_ID} --network-interface-id ${NTW_INTF_ID} --allow-reassociation
 
 # Validate if the EIP transfer was complete
 EIP_ASSIGNED=`aws ec2 describe-network-interfaces --region ${REGION_ID} --filter "Name=addresses.private-ip-address,Values=${NTW_INTF_ETH1}" --query 'NetworkInterfaces[0].[PrivateIpAddresses[0].Association.PublicIp]'|sed 's|\[||g; s|\]||g; /^[[:space:]]*$/d; s|\ ||g; s|\"||g'`
